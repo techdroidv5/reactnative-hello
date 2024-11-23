@@ -9,20 +9,14 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/techdroidv5/reactnative-hello.git'
             }
         }
-        stage('Set Up Node Environment') {
-            steps {
-                // Optionally set the npm registry to a known faster mirror
-                sh 'npm set registry https://registry.npmjs.org/'
-            }
-        }
-
+        
         stage('Install Dependencies') {
             options {
-                timeout(time: 30, unit: 'MINUTES') // Increase the timeout for this stage
+                timeout(time: 60, unit: 'MINUTES') // Increase the timeout for this stage
             }
             steps {
                 // Use verbose logging for troubleshooting
-                sh 'npm install --verbose'
+                sh 'npm install --no-audit'
             }
         }
         stage('Build APK') {
