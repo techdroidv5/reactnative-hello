@@ -5,7 +5,7 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Hello, World!</Text>
-      <Text style={styles.subtitle}>Welcome to KSoft's first React Native app.</Text>
+      <Text style={styles.subtitle}>Welcome to KSoft's first React Native Hello app.</Text>
     </View>
   );
 };
