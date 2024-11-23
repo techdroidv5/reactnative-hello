@@ -1,45 +1,26 @@
 pipeline {
     agent any
-
-    environment {
-        S3_BUCKET = 'ksoft-reactnative-apks'
-        AWS_REGION = 'eu-north-1'
-    }
-
+    
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
                 git 'https://github.com/techdroidv5/reactnative-hello.git'
             }
         }
-
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                sh 'npm install'  // Or yarn install if you use Yarn
             }
         }
-
         stage('Build APK') {
             steps {
-                sh './gradlew assembleRelease' 
+                sh './gradlew assembleRelease'  // Assuming you are using gradle to build the APK
             }
         }
-
-        stage('Upload APK to S3') {
+        stage('Upload to S3') {
             steps {
-                script {
-                    def apkPath = "android/app/build/outputs/apk/release/rn-helloworld.apk"
-                    sh """
-                    aws s3 cp ${apkPath} s3://${S3_BUCKET}/rn-helloworld.apk --region ${AWS_REGION}
-                    """
-                }
+                sh 'aws s3 cp app-release.apk s3://ksoft-reactnative-apks/'
             }
-        }
-    }
-
-    post {
-        always {
-            echo "Pipeline completed."
         }
     }
 }
