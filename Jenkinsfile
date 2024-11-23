@@ -1,20 +1,19 @@
 pipeline {
     agent any
-    
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/techdroidv5/reactnative-hello.git'
+                git branch: 'main', url: 'https://github.com/techdroidv5/reactnative-hello.git'
             }
         }
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'  // Or yarn install if you use Yarn
+                sh 'npm install'
             }
         }
         stage('Build APK') {
             steps {
-                sh './gradlew assembleRelease'  // Assuming you are using gradle to build the APK
+                sh './gradlew assembleRelease'
             }
         }
         stage('Upload to S3') {
