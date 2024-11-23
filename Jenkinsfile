@@ -11,7 +11,11 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                def cacheDir = '.npm'
+                    // Cache the npm cache directory
+                    cached("npm-cache") {
+                        sh 'npm install'
+                    }
             }
         }
         stage('Build APK') {
