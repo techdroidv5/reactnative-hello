@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/techdroidv5/reactnative-hello.git'
+                git 'https://github.com/techdroidv5/reactnative-hello.git'
             }
         }
         stage('Install Dependencies') {
