@@ -9,16 +9,20 @@ pipeline {
                 git branch: 'master', url: 'https://github.com/techdroidv5/reactnative-hello.git'
             }
         }
-        stage('Install Dependencies') {
+        stage('Set Up Node Environment') {
             steps {
-                script {
-                    // Create or use a cached directory for npm dependencies
-                    def cacheDir = "${env.WORKSPACE}/.npm"
-                    sh "mkdir -p ${cacheDir}"
-                    withEnv(["NPM_CONFIG_CACHE=${cacheDir}"]) {
-                        sh 'npm install'
-                    }
-                }
+                // Optionally set the npm registry to a known faster mirror
+                sh 'npm set registry https://registry.npmjs.org/'
+            }
+        }
+
+        stage('Install Dependencies') {
+            options {
+                timeout(time: 30, unit: 'MINUTES') // Increase the timeout for this stage
+            }
+            steps {
+                // Use verbose logging for troubleshooting
+                sh 'npm install --verbose'
             }
         }
         stage('Build APK') {
