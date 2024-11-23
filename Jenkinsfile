@@ -15,8 +15,8 @@ pipeline {
             steps {
                 script {
                     // Ensure gradlew has executable permissions
-                    sh 'chmod +x ./gradlew'
-                    sh './gradlew assembleRelease'
+                    sh 'chmod +x ./andriod/gradlew'
+                    sh './andriod/gradlew assembleRelease'
                 }
             }
         }
