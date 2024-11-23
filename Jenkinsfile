@@ -10,15 +10,7 @@ pipeline {
             }
         }
         
-        stage('Install Dependencies') {
-            options {
-                timeout(time: 60, unit: 'MINUTES') // Increase the timeout for this stage
-            }
-            steps {
-                // Use verbose logging for troubleshooting
-                sh 'npm install --no-audit'
-            }
-        }
+        
         stage('Build APK') {
             steps {
                 script {
