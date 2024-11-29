@@ -1,12 +1,9 @@
 pipeline {
     agent any
 
-    environment {
-        S3_BUCKET = 'ksoft-reactnative-apks'  // Replace with your actual bucket name
-        JAVA_HOME = tool 'JDK'       
-        NODE_HOME = tool 'nodejs'  // Ensure Node.js is configured in Jenkins Global Tools
-        ANDROID_HOME = '/home/shiva/Android/Sdk'
-        PATH = "${JAVA_HOME}/bin:${NODE_HOME}/bin:${env.ANDROID_HOME}/cmdline-tools/latest/bin:${env.ANDROID_HOME}/platform-tools:${env.PATH}"
+    tools {
+        // Configure NodeJS tool here
+        nodejs 'NodeJS' // This should be the name of the NodeJS tool you have configured in Jenkins Global Tool Configuration
     }
 
     options {
@@ -15,70 +12,32 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Clone Repository') {
             steps {
                 script {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/master']], 
-                        userRemoteConfigs: [[url: 'https://github.com/techdroidv5/reactnative-hello.git']]
-                    ])
+                    echo 'Cloning the Git repository...'
+                    // Clone the repository from GitHub
+                    git 'https://github.com/techdroidv5/reactnative-hello.git'
                 }
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh '''
-                    echo "Installing npm dependencies..."
-                    npm install --no-audit
-                '''
-            }
-        }
-
-        stage('Setup local.properties') {
-            steps {
-                    echo "Setting up local.properties..."
-                    sh '''
-                        echo "sdk.dir=${ANDROID_HOME}" > ${WORKSPACE}/android/local.properties
-                        echo "Contents of android/local.properties:"
-                        cat ${WORKSPACE}/android/local.properties
-                    '''
-            }
-        }
-
-        stage('Build APK') {
-            steps {
-                sh '''                    
-                    echo "Building the APK..."
-                    chmod +x ./android/gradlew                    
-                    cd android
-                    ./gradlew clean assembleRelease --no-daemon --info
-                '''
-            }
-        }
-
-        stage('Upload to S3') {
-            steps {
-                withAWS(region: 'us-east-1', credentials: 'your-aws-credentials-id') {  // Replace with your AWS credentials ID
-                    sh '''
-                        echo "Uploading APK to S3..."
-                        aws s3 cp ./android/app/build/outputs/apk/release/app-release.apk s3://${S3_BUCKET}/app-release.apk
-                    '''
+                script {
+                    echo 'Installing npm dependencies...'
+                    // Ensure npm is installed and execute npm install
+                    sh 'npm install'
                 }
             }
         }
-    }
 
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
-        }
-        always {
-            cleanWs()  // Cleans up the workspace
+        stage('Print ANDROID_HOME') {
+            steps {
+                script {
+                    echo "ANDROID_HOME: ${env.ANDROID_HOME}" // Print the ANDROID_HOME environment variable
+                }
+            }
         }
     }
 }
