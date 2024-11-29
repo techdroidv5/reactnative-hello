@@ -42,7 +42,7 @@ pipeline {
                     echo "Setting up local.properties..."
                     
                     // Dynamically set the path using ${env.WORKSPACE}
-                    def localPropertiesPath = "${env.WORKSPACE}/android/local.properties"
+                    String localPropertiesPath = "${env.WORKSPACE}/android/local.properties"
 
                     // Using writeFile to create the local.properties file
                     writeFile file: localPropertiesPath, text: "sdk.dir=${env.ANDROID_HOME}\n"
