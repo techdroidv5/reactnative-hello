@@ -27,14 +27,14 @@ pipeline {
             }
         }
 
-        // stage('Install Dependencies') {
-        //     steps {
-        //         sh '''
-        //             echo "Installing npm dependencies..."
-        //             npm install --no-audit
-        //         '''
-        //     }
-        // }
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                    echo "Installing npm dependencies..."
+                    npm install --no-audit
+                '''
+            }
+        }
 
         stage('Build APK') {
             steps {
