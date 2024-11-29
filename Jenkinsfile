@@ -41,9 +41,11 @@ pipeline {
                 script {
                     echo "Setting up local.properties..."
                     
-                    // Writing to the local.properties file
-                    def localPropertiesFile = new File("${env.WORKSPACE}/android/local.properties")
-                    localPropertiesFile.text = "sdk.dir=${env.ANDROID_HOME}\n"
+                    // Dynamically set the path using ${env.WORKSPACE}
+                    def localPropertiesPath = "${env.WORKSPACE}/android/local.properties"
+
+                    // Using writeFile to create the local.properties file
+                    writeFile file: localPropertiesPath, text: "sdk.dir=${env.ANDROID_HOME}\n"
 
                     // Verifying the contents of the file
                     echo "sdk.dir content:"
