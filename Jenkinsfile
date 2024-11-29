@@ -54,7 +54,7 @@ pipeline {
                         sh 'cat local.properties'
                         // Make sure the Gradle wrapper has execute permissions
                         sh 'chmod +x ./gradlew'
-
+                        
                         // Run Gradle to clean and assemble the release APK
                         sh "./gradlew clean assembleRelease -Dsdk.dir=${env.ANDROID_HOME} --no-daemon --info"
                     }
