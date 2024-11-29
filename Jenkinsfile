@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         S3_BUCKET = 'ksoft-reactnative-apks'  // Replace with your actual bucket name
+        JAVA_HOME = tool 'JDK'
+        PATH = "${JAVA_HOME}/bin:${env.PATH}"
         NODE_HOME = tool 'nodejs'  // Ensure Node.js is configured in Jenkins Global Tools
         PATH = "${NODE_HOME}/bin:${env.PATH}"
     }
@@ -40,7 +42,7 @@ pipeline {
                     echo "Building the APK..."
                     chmod +x ./android/gradlew
                     cd android
-                    ./gradlew assembleRelease
+                    ./gradlew clean assembleRelease --no-daemon
                 '''
             }
         }
