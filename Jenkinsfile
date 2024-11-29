@@ -3,7 +3,7 @@ pipeline {
 
     tools {
         // Configure NodeJS tool here
-        nodejs 'NodeJS' // This should be the name of the NodeJS tool you have configured in Jenkins Global Tool Configuration
+        nodejs 'nodejs' // This should be the name of the NodeJS tool you have configured in Jenkins Global Tool Configuration
     }
 
     options {
