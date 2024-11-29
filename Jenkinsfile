@@ -56,7 +56,7 @@ pipeline {
                         sh 'chmod +x ./gradlew'
 
                         // Run Gradle to clean and assemble the release APK
-                        sh './gradlew clean assembleRelease --no-daemon --info'
+                        sh "./gradlew clean assembleRelease -Dsdk.dir=${env.ANDROID_HOME} --no-daemon --info"
                     }
                 }
             }
