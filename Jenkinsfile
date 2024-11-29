@@ -40,9 +40,9 @@ pipeline {
             steps {
                     echo "Setting up local.properties..."
                     sh '''
-                        echo "sdk.dir=${ANDROID_HOME}" > ${env.WORKSPACE}/android/local.properties
+                        echo "sdk.dir=${ANDROID_HOME}" > ${WORKSPACE}/android/local.properties
                         echo "Contents of android/local.properties:"
-                        cat android/local.properties
+                        cat ${WORKSPACE}/android/local.properties
                     '''
             }
         }
