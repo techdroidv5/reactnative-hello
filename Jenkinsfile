@@ -50,8 +50,8 @@ pipeline {
                     // Navigate to the Android directory inside the React Native project
                     dir("${env.WORKSPACE}/android") {
                         writeFile file: 'local.properties', text: "sdk.dir=${env.ANDROID_HOME}\n"
-                        echo "Contents of android/local.properties:"
-                        sh 'cat android/local.properties'
+                        echo "Contents of local.properties:"
+                        sh 'cat local.properties'
                         // Make sure the Gradle wrapper has execute permissions
                         sh 'chmod +x ./gradlew'
 
