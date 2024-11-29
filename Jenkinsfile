@@ -15,17 +15,17 @@ pipeline {
     }
 
     stages {
-        // stage('Checkout') {
-        //     steps {
-        //         script {
-        //             checkout([
-        //                 $class: 'GitSCM',
-        //                 branches: [[name: '*/master']], // Update branch name if needed
-        //                 userRemoteConfigs: [[url: 'https://github.com/techdroidv5/reactnative-hello.git']]
-        //             ])
-        //         }
-        //     }
-        // }
+        stage('Checkout') {
+            steps {
+                script {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/master']], 
+                        userRemoteConfigs: [[url: 'https://github.com/techdroidv5/reactnative-hello.git']]
+                    ])
+                }
+            }
+        }
 
         // stage('Install Dependencies') {
         //     steps {
