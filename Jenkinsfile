@@ -38,19 +38,12 @@ pipeline {
 
         stage('Setup local.properties') {
             steps {
-                script {
                     echo "Setting up local.properties..."
-                    
-                    // Dynamically set the path using ${env.WORKSPACE}
-                    String localPropertiesPath = "${env.WORKSPACE}/android/local.properties"
-
-                    // Using writeFile to create the local.properties file
-                    writeFile file: localPropertiesPath, text: "sdk.dir=${env.ANDROID_HOME}\n"
-
-                    // Verifying the contents of the file
-                    echo "sdk.dir content:"
-                    echo localPropertiesFile.text
-                }
+                    sh '''
+                        echo "sdk.dir=${ANDROID_HOME}" > ${env.WORKSPACE}/android/local.properties
+                        echo "Contents of android/local.properties:"
+                        cat android/local.properties
+                    '''
             }
         }
 
