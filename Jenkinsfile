@@ -36,16 +36,27 @@ pipeline {
             }
         }
 
+        stage('Setup local.properties') {
+            steps {
+                script {
+                    echo "Setting up local.properties..."
+                    
+                    // Writing to the local.properties file
+                    def localPropertiesFile = new File("${env.WORKSPACE}/android/local.properties")
+                    localPropertiesFile.text = "sdk.dir=${env.ANDROID_HOME}\n"
+
+                    // Verifying the contents of the file
+                    echo "sdk.dir content:"
+                    echo localPropertiesFile.text
+                }
+            }
+        }
+
         stage('Build APK') {
             steps {
-                sh '''
-                    echo "Setting up local.properties..."
-                    echo "sdk.dir=${ANDROID_HOME}" > android/local.properties
-                    echo "ANDROID_HOME: $ANDROID_HOME"
-                    echo "sdk.dir content:"
-                    cat android/local.properties
+                sh '''                    
                     echo "Building the APK..."
-                    chmod +x ./android/gradlew
+                    chmod +x ./android/gradlew                    
                     cd android
                     ./gradlew clean assembleRelease --no-daemon --info
                 '''
