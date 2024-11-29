@@ -15,32 +15,35 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                script {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: '*/master']], // Update branch name if needed
-                        userRemoteConfigs: [[url: 'https://github.com/techdroidv5/reactnative-hello.git']]
-                    ])
-                }
-            }
-        }
+        // stage('Checkout') {
+        //     steps {
+        //         script {
+        //             checkout([
+        //                 $class: 'GitSCM',
+        //                 branches: [[name: '*/master']], // Update branch name if needed
+        //                 userRemoteConfigs: [[url: 'https://github.com/techdroidv5/reactnative-hello.git']]
+        //             ])
+        //         }
+        //     }
+        // }
 
-        stage('Install Dependencies') {
-            steps {
-                sh '''
-                    echo "Installing npm dependencies..."
-                    npm install --no-audit
-                '''
-            }
-        }
+        // stage('Install Dependencies') {
+        //     steps {
+        //         sh '''
+        //             echo "Installing npm dependencies..."
+        //             npm install --no-audit
+        //         '''
+        //     }
+        // }
 
         stage('Build APK') {
             steps {
                 sh '''
                     echo "Setting up local.properties..."
                     echo "sdk.dir=${ANDROID_HOME}" > android/local.properties
+                    echo "ANDROID_HOME: $ANDROID_HOME"
+                    echo "sdk.dir content:"
+                    cat android/local.properties
                     echo "Building the APK..."
                     chmod +x ./android/gradlew
                     cd android
