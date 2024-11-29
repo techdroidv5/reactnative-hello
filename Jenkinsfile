@@ -12,12 +12,12 @@ pipeline {
     }
 
     stages {
-         stage('Checkout') {
+        stage('Checkout') {
             steps {
                 script {
                     checkout([
                         $class: 'GitSCM',
-                        branches: [[name: '*/master']], 
+                        branches: [[name: '*/master']],
                         userRemoteConfigs: [[url: 'https://github.com/techdroidv5/reactnative-hello.git']]
                     ])
                 }
@@ -38,6 +38,23 @@ pipeline {
             steps {
                 script {
                     echo "ANDROID_HOME: ${env.ANDROID_HOME}" // Print the ANDROID_HOME environment variable
+                }
+            }
+        }
+
+        stage('Build APK') {
+            steps {
+                script {
+                    echo 'Building APK...'
+
+                    // Navigate to the Android directory inside the React Native project
+                    dir("${env.WORKSPACE}/android") {
+                        // Make sure the Gradle wrapper has execute permissions
+                        sh 'chmod +x ./gradlew'
+
+                        // Run Gradle to clean and assemble the release APK
+                        sh './gradlew clean assembleRelease --no-daemon --info'
+                    }
                 }
             }
         }
