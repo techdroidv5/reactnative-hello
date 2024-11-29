@@ -3,10 +3,9 @@ pipeline {
 
     environment {
         S3_BUCKET = 'ksoft-reactnative-apks'  // Replace with your actual bucket name
-        JAVA_HOME = tool 'JDK'
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+        JAVA_HOME = tool 'JDK'       
         NODE_HOME = tool 'nodejs'  // Ensure Node.js is configured in Jenkins Global Tools
-        PATH = "${NODE_HOME}/bin:${env.PATH}"
+        PATH = "${JAVA_HOME}/bin:${NODE_HOME}/bin:${env.PATH}"
     }
 
     options {
