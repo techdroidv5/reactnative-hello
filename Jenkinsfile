@@ -5,7 +5,8 @@ pipeline {
         S3_BUCKET = 'ksoft-reactnative-apks'  // Replace with your actual bucket name
         JAVA_HOME = tool 'JDK'       
         NODE_HOME = tool 'nodejs'  // Ensure Node.js is configured in Jenkins Global Tools
-        PATH = "${JAVA_HOME}/bin:${NODE_HOME}/bin:${env.PATH}"
+        ANDROID_HOME = '/home/shiva/Android/Sdk'
+        PATH = "${JAVA_HOME}/bin:${NODE_HOME}/bin:${env.ANDROID_HOME}/cmdline-tools/latest/bin:${env.ANDROID_HOME}/platform-tools:${env.PATH}"
     }
 
     options {
@@ -38,6 +39,8 @@ pipeline {
         stage('Build APK') {
             steps {
                 sh '''
+                    echo "Setting up local.properties..."
+                    echo "sdk.dir=${ANDROID_HOME}" > android/local.properties
                     echo "Building the APK..."
                     chmod +x ./android/gradlew
                     cd android
