@@ -12,12 +12,14 @@ pipeline {
     }
 
     stages {
-        stage('Clone Repository') {
+         stage('Checkout') {
             steps {
                 script {
-                    echo 'Cloning the Git repository...'
-                    // Clone the repository from GitHub
-                    git 'https://github.com/techdroidv5/reactnative-hello.git'
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: '*/master']], 
+                        userRemoteConfigs: [[url: 'https://github.com/techdroidv5/reactnative-hello.git']]
+                    ])
                 }
             }
         }
