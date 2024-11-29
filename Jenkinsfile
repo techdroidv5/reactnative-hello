@@ -47,7 +47,7 @@ pipeline {
                     echo "Building the APK..."
                     chmod +x ./android/gradlew
                     cd android
-                    ./gradlew clean assembleRelease --no-daemon
+                    ./gradlew clean assembleRelease --no-daemon --info
                 '''
             }
         }
