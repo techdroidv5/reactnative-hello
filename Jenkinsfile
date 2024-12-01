@@ -63,7 +63,7 @@ pipeline {
             }
         }
 
-        stage('Build APK') { Commented
+        stage('Build APK') { 
             steps {
                 sh '''                    
                     echo "Building the APK..."
