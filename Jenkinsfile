@@ -36,6 +36,22 @@ pipeline {
             }
         }
 
+        stage('Setup ANDROID_HOME') {
+            steps {
+                script {
+                    sh """
+                    # Export ANDROID_HOME and update PATH
+                    export ANDROID_HOME=${ANDROID_HOME}
+                    export PATH=\$ANDROID_HOME/tools:\$ANDROID_HOME/platform-tools:\$PATH
+
+                    # Verify the Android SDK location
+                    echo "ANDROID_HOME is set to: \$ANDROID_HOME"
+                    echo "PATH is set to: \$PATH"
+                    """
+                }
+            }
+        }
+
         stage('Setup local.properties') {
             steps {
                     echo "Setting up local.properties..."
