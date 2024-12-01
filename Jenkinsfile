@@ -63,16 +63,16 @@ pipeline {
             }
         }
 
-        // stage('Build APK') { Commented
-        //     steps {
-        //         sh '''                    
-        //             echo "Building the APK..."
-        //             chmod +x ./android/gradlew                    
-        //             cd android
-        //             ./gradlew clean assembleRelease --no-daemon --info
-        //         '''
-        //     }
-        // }
+        stage('Build APK') { Commented
+            steps {
+                sh '''                    
+                    echo "Building the APK..."
+                    chmod +x ./android/gradlew                    
+                    cd android
+                    ./gradlew clean assembleRelease --no-daemon --info
+                '''
+            }
+        }
 
         stage('Create Dummy File') {
             steps {
