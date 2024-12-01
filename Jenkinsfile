@@ -68,9 +68,13 @@ pipeline {
         }
         stage('Upload to S3') {
             steps {
-                withCredentials([string(credentialsId: 'AKIAWCYYALSYUUP4A6MN', variable: 'AWS_ACCESS_KEY_ID'),
-                                 string(credentialsId: 'NtDdAUcVa5/Xe64mgWZvNOc62+MAA2GZGq0ynIuo', variable: 'AWS_SECRET_ACCESS_KEY')]) {
-                    // Configure AWS CLI and upload the file
+                withCredentials([string(credentialsId: 'aws-credentials', variable: 'AWS_CREDS')]) {
+                    script {
+                        // Split the credentials into access key and secret key
+                        def parts = AWS_CREDS.split(':')
+                        env.AWS_ACCESS_KEY_ID = parts[0]
+                        env.AWS_SECRET_ACCESS_KEY = parts[1]
+                    }
                     sh """
                     aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
                     aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
